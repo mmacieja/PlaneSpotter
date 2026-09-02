@@ -1,0 +1,39 @@
+### List of the planes
+GET http://localhost:8080/plane
+
+### Add a correct plane
+POST http://localhost:8080/plane
+Content-Type: application/json
+
+{
+  "icao24": "333334",
+  "registration": "registration4",
+  "airlineId": 1
+}
+
+### Add a blank plane
+POST http://localhost:8080/plane
+Content-Type: application/json
+
+{
+  "icao24": "",
+  "registration": "",
+  "airlineId": 1
+}
+
+### Find a plane
+GET http://localhost:8080/plane/5
+
+### Update a plane
+
+PUT http://localhost:8080/plane/5
+Content-Type: application/json
+
+{
+  "icao24": "333334",
+  "registration": "registration5",
+  "airlineId": 1
+}
+
+### Delete a plane
+DELETE http://localhost:8080/plane/6
