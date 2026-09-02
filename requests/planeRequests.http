@@ -36,4 +36,4 @@ Content-Type: application/json
 }
 
 ### Delete a plane
-DELETE http://localhost:8080/plane/6
+DELETE http://localhost:8080/plane/7

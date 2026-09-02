@@ -40,9 +40,10 @@ public class AllExceptionsHandler {
     }
 
     @ExceptionHandler
-    public ResponseEntity<Map<String, String>> handleDuplicate(DuplicateResourceException exception){
+    public ResponseEntity<Map<String, List<String>>> handleDuplicate(DuplicateResourceException exception){
 
-        return ResponseEntity.status(HttpStatus.CONFLICT)
-                .body(Map.of("error", exception.getMessage()));
+
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(exception.getErrors());
+
     }
 }

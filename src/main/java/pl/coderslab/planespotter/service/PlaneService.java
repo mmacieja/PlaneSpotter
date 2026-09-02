@@ -10,7 +10,9 @@ import pl.coderslab.planespotter.exception.ResourceNotFoundException;
 import pl.coderslab.planespotter.repository.AirlineRepository;
 import pl.coderslab.planespotter.repository.PlaneRepository;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class PlaneService {
@@ -36,6 +38,17 @@ public class PlaneService {
     }
 
     public PlaneResponse create(PlaneRequest planeRequest){
+
+        Map<String, List<String>> errors = new HashMap<>();
+
+        if(planeRepository.existsByIcao24(planeRequest.getIcao24())){
+            errors.put("icao24", List.of("A plane with this icao24 already exists"));
+        }
+
+        if (!errors.isEmpty()){
+            throw new DuplicateResourceException(errors);
+        }
+
         Plane plane = new Plane();
 
         plane.setIcao24(planeRequest.getIcao24());
@@ -46,9 +59,6 @@ public class PlaneService {
                     .orElseThrow(() -> new ResourceNotFoundException("Airline not found"));
 
             plane.setAirline(airline);
-        }
-        if(planeRepository.existsByIcao24(planeRequest.getIcao24())){
-            throw new DuplicateResourceException("A plane with this icao24 already exists");
         }
 
         return toResponse(planeRepository.save(plane));
@@ -81,8 +91,18 @@ public class PlaneService {
 
     public PlaneResponse update(Long id, PlaneRequest planeRequest){
 
+        Map<String, List<String>> errors = new HashMap<>();
+
         Plane plane = planeRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Plane not found"));
+
+        if(planeRepository.existsByIcao24AndIdNot(planeRequest.getIcao24(), id)){
+            errors.put("icao24", List.of("A plane with this icao24 already exists"));
+        }
+
+        if (!errors.isEmpty()){
+            throw new DuplicateResourceException(errors);
+        }
 
         plane.setIcao24(planeRequest.getIcao24());
         plane.setRegistration(planeRequest.getRegistration());
@@ -95,10 +115,6 @@ public class PlaneService {
             plane.setAirline(airline);
         }else {
             plane.setAirline(null);
-        }
-
-        if(planeRepository.existsByIcao24AndIdNot(planeRequest.getIcao24(), id)){
-            throw new DuplicateResourceException("A plane with this icao24 already exists");
         }
 
         return toResponse(planeRepository.save(plane));

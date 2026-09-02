@@ -1,8 +1,17 @@
 package pl.coderslab.planespotter.exception;
 
+import lombok.Getter;
+
+import java.util.List;
+import java.util.Map;
+
+@Getter
 public class DuplicateResourceException extends RuntimeException{
 
-    public DuplicateResourceException (String message){
-        super(message);
+    private final Map<String, List<String>> errors;
+
+    public DuplicateResourceException (Map<String, List<String>> errors){
+        super("Duplicate");
+        this.errors = errors;
     }
 }
