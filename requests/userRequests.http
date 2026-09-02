@@ -1,0 +1,39 @@
+### List of the users
+GET http://localhost:8080/user
+
+### Add a correct user
+POST http://localhost:8080/user
+Content-Type: application/json
+
+{
+  "email": "username2@visa.com",
+  "username": "username2",
+  "password": "password456"
+}
+
+### Add a blank user
+POST http://localhost:8080/user
+Content-Type: application/json
+
+{
+  "email": "",
+  "username": "",
+  "password": ""
+}
+
+### Find a user
+GET http://localhost:8080/user/1
+
+### Update a user
+
+PUT http://localhost:8080/user/1
+Content-Type: application/json
+
+{
+  "email": "username2@visa.com",
+  "username": "username2",
+  "password": "password123"
+}
+
+### Delete a user
+DELETE http://localhost:8080/user/1
