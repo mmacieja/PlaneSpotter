@@ -3,11 +3,15 @@ package pl.coderslab.planespotter.controller;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.*;
+import pl.coderslab.planespotter.dto.request.LoginRequest;
 import pl.coderslab.planespotter.dto.request.UserRequest;
 import pl.coderslab.planespotter.dto.response.UserResponse;
 import pl.coderslab.planespotter.service.UserService;
-
 import java.util.List;
 
 @RestController
@@ -15,9 +19,11 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
+    private final AuthenticationManager authenticationManager;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, AuthenticationManager authenticationManager) {
         this.userService = userService;
+        this.authenticationManager = authenticationManager;
     }
 
     @PostMapping
@@ -55,6 +61,19 @@ public class UserController {
                                                      @Valid @RequestBody UserRequest userRequest){
 
         return ResponseEntity.ok(userService.update(id, userRequest));
+
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<UserResponse> login(@Valid @RequestBody LoginRequest loginRequest){
+
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword())
+            );
+
+            UserResponse userResponse = userService.getByUsername(authentication.getName());
+            return ResponseEntity.ok(userResponse);
+
 
     }
 }

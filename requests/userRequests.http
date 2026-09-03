@@ -6,9 +6,9 @@ POST http://localhost:8080/user
 Content-Type: application/json
 
 {
-  "email": "username2@visa.com",
-  "username": "username2",
-  "password": "password456"
+  "email": "user1@visa.com",
+  "username": "user1",
+  "password": "password1"
 }
 
 ### Add a blank user
@@ -37,3 +37,21 @@ Content-Type: application/json
 
 ### Delete a user
 DELETE http://localhost:8080/user/1
+
+### Valid login
+POST http://localhost:8080/user/login
+Content-Type: application/json
+
+{
+  "username": "user1",
+  "password": "password1"
+}
+
+### Invalid login
+POST http://localhost:8080/user/login
+Content-Type: application/json
+
+{
+  "username": "user1",
+  "password": "password2"
+}
