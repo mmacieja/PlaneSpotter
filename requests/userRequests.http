@@ -2,7 +2,7 @@
 GET http://localhost:8080/user
 
 ### Add a correct user
-POST http://localhost:8080/user
+POST http://localhost:8080/user/register
 Content-Type: application/json
 
 {
@@ -12,7 +12,7 @@ Content-Type: application/json
 }
 
 ### Add a blank user
-POST http://localhost:8080/user
+POST http://localhost:8080/user/register
 Content-Type: application/json
 
 {
@@ -55,3 +55,6 @@ Content-Type: application/json
   "username": "user1",
   "password": "password2"
 }
+
+### Logout
+POST http://localhost:8080/user/logout

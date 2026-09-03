@@ -1,6 +1,7 @@
 package pl.coderslab.planespotter;
 
 
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -21,8 +22,16 @@ public class Security {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         http.csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests(auth -> auth.anyRequest()
-                        .permitAll());
+                .authorizeHttpRequests(auth -> auth.requestMatchers("/user/register", "/user/login")
+                        .permitAll()
+                        .anyRequest()
+                        .authenticated())
+                .exceptionHandling(exception -> exception.authenticationEntryPoint(
+                        (request, response, authenticationException) ->
+                                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED)))
+                .logout(logout -> logout.logoutUrl("/user/logout")
+                .logoutSuccessHandler((request, response, authentication) ->
+                        response.setStatus(HttpServletResponse.SC_OK)).permitAll());
         return http.build();
     }
 
