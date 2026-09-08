@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import pl.coderslab.planespotter.dto.response.OpenSkyPlaneResponse;
 import pl.coderslab.planespotter.service.OpenSkyService;
+import pl.coderslab.planespotter.service.PlaneMatchingService;
 
 import javax.swing.*;
 import java.util.List;
@@ -17,9 +18,13 @@ public class OpenSkyController {
 
     private final OpenSkyService service;
 
-    public OpenSkyController(OpenSkyService service) {
+    private final PlaneMatchingService matchingService;
+
+    public OpenSkyController(OpenSkyService service, PlaneMatchingService matchingService) {
         this.service = service;
+        this.matchingService = matchingService;
     }
+
 
 
     @GetMapping("/nearby")
@@ -27,5 +32,13 @@ public class OpenSkyController {
                                                            @RequestParam double lo){
 
         return ResponseEntity.ok(service.getPlanes(la, lo));
+    }
+
+    @GetMapping("/findPlane")
+    public ResponseEntity<OpenSkyPlaneResponse> findPlane(@RequestParam double la,
+                                                           @RequestParam double lo,
+                                                          @RequestParam double bearing){
+
+        return ResponseEntity.ok(matchingService.findPlane(la, lo, bearing));
     }
 }
