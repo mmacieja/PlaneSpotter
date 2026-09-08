@@ -9,3 +9,6 @@ Content-Type: application/json
 
 ### Nearby planes
 GET http://localhost:8080/opensky/nearby?la=30.00&lo=30.00
+
+### Find the plane
+GET http://localhost:8080/opensky/findPlane?la=30.00&lo=30.00&bearing=180
