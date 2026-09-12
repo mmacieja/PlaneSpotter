@@ -21,28 +21,28 @@ public class PlaneController {
     }
 
     @PostMapping
-    public ResponseEntity<PlaneResponse> createPlane(@Valid @RequestBody PlaneRequest planeRequest){
+    public ResponseEntity<PlaneResponse> createPlane(@Valid @RequestBody PlaneRequest planeRequest) {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(planeService.create(planeRequest));
     }
 
     @GetMapping
-    public ResponseEntity<List<PlaneResponse>> findAllPlanes(){
+    public ResponseEntity<List<PlaneResponse>> findAllPlanes() {
 
         return ResponseEntity.ok(planeService.findAll());
 
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PlaneResponse> findPlane(@PathVariable Long id){
+    public ResponseEntity<PlaneResponse> findPlane(@PathVariable Long id) {
 
         return ResponseEntity.ok(planeService.findById(id));
 
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletePlane(@PathVariable Long id){
+    public ResponseEntity<Void> deletePlane(@PathVariable Long id) {
 
         planeService.delete(id);
 
@@ -52,7 +52,7 @@ public class PlaneController {
 
     @PutMapping("/{id}")
     public ResponseEntity<PlaneResponse> updatePlane(@PathVariable Long id,
-            @Valid @RequestBody PlaneRequest planeRequest){
+                                                     @Valid @RequestBody PlaneRequest planeRequest) {
 
         return ResponseEntity.ok(planeService.update(id, planeRequest));
 

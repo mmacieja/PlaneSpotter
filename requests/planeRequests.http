@@ -7,7 +7,7 @@ Content-Type: application/json
 
 {
   "icao24": "333334",
-  "registration": "registration4",
+  "callsign": "registration4",
   "airlineId": 1
 }
 
@@ -17,7 +17,7 @@ Content-Type: application/json
 
 {
   "icao24": "",
-  "registration": "",
+  "callsign": "",
   "airlineId": 1
 }
 
@@ -31,7 +31,7 @@ Content-Type: application/json
 
 {
   "icao24": "333334",
-  "registration": "registration5",
+  "callsign": "registration5",
   "airlineId": 1
 }
 

@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class GeoCalculationService {
 
-    public double calculateBearing(double userLa, double userLo, double planeLa, double planeLo){
+    public double calculateBearing(double userLa, double userLo, double planeLa, double planeLo) {
 
         double lo1 = Math.toRadians(userLo);
         double lo2 = Math.toRadians(planeLo);
@@ -22,7 +22,7 @@ public class GeoCalculationService {
         return (Math.toDegrees(bearing) + 360) % 360;
     }
 
-    public double calculateAngularDiff(double firstB, double secondB){
+    public double calculateAngularDiff(double firstB, double secondB) {
 
         double diff = Math.abs(firstB - secondB);
 

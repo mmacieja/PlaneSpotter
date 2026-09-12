@@ -18,6 +18,7 @@ import pl.coderslab.planespotter.dto.request.LoginRequest;
 import pl.coderslab.planespotter.dto.request.UserRequest;
 import pl.coderslab.planespotter.dto.response.UserResponse;
 import pl.coderslab.planespotter.service.UserService;
+
 import java.util.List;
 
 @RestController
@@ -33,28 +34,28 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<UserResponse> createUser(@Valid @RequestBody UserRequest userRequest){
+    public ResponseEntity<UserResponse> createUser(@Valid @RequestBody UserRequest userRequest) {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(userService.create(userRequest));
     }
 
     @GetMapping
-    public ResponseEntity<List<UserResponse>> findAllPlanes(){
+    public ResponseEntity<List<UserResponse>> findAllUsers() {
 
         return ResponseEntity.ok(userService.findAll());
 
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserResponse> findPlane(@PathVariable Long id){
+    public ResponseEntity<UserResponse> findUser(@PathVariable Long id) {
 
         return ResponseEntity.ok(userService.findById(id));
 
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletePlane(@PathVariable Long id){
+    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
 
         userService.delete(id);
 
@@ -63,8 +64,8 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UserResponse> updatePlane(@PathVariable Long id,
-                                                     @Valid @RequestBody UserRequest userRequest){
+    public ResponseEntity<UserResponse> updateUser(@PathVariable Long id,
+                                                   @Valid @RequestBody UserRequest userRequest) {
 
         return ResponseEntity.ok(userService.update(id, userRequest));
 
@@ -72,21 +73,21 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<UserResponse> login(@Valid @RequestBody LoginRequest loginRequest,
-                                              HttpServletRequest httpRequest){
+                                              HttpServletRequest httpRequest) {
 
-            Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword())
-            );
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword())
+        );
 
-            UserResponse userResponse = userService.getByUsername(authentication.getName());
+        UserResponse userResponse = userService.getByUsername(authentication.getName());
 
-            SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
-            securityContext.setAuthentication(authentication);
-            SecurityContextHolder.setContext(securityContext);
+        SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
+        securityContext.setAuthentication(authentication);
+        SecurityContextHolder.setContext(securityContext);
 
-            HttpSession session = httpRequest.getSession(true);
+        HttpSession session = httpRequest.getSession(true);
 
-            session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, securityContext);
+        session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, securityContext);
 
         return ResponseEntity.ok(userResponse);
 

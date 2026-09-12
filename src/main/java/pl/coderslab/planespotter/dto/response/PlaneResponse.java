@@ -9,7 +9,7 @@ import lombok.Setter;
 public class PlaneResponse {
 
     private Long id;
-    private String registration;
+    private String callsign;
     private String icao24;
     private String airline;
 }

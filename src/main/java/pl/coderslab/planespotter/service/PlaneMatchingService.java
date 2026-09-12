@@ -18,33 +18,33 @@ public class PlaneMatchingService {
         this.geoService = geoService;
     }
 
-    public OpenSkyPlaneResponse findPlane(double la, double lo, double viewingBearing){
-        List<OpenSkyPlaneResponse> planes  = service.getPlanes(la, lo);
+    public OpenSkyPlaneResponse findPlane(double la, double lo, double viewingBearing) {
+        List<OpenSkyPlaneResponse> planes = service.getPlanes(la, lo);
 
         double diff1 = 360;
 
         OpenSkyPlaneResponse planeResponse = null;
 
-        for (OpenSkyPlaneResponse plane : planes){
+        for (OpenSkyPlaneResponse plane : planes) {
             double planeLo = plane.getLongitude();
             double planeLa = plane.getLatitude();
 
+            // planeBearing is the real angle from the viewer to the plane
             double planeBearing = geoService.calculateBearing(la, lo, planeLa, planeLo);
 
             double diff2 = geoService.calculateAngularDiff(viewingBearing, planeBearing);
 
-            if (diff2 < diff1){
+            if (diff2 < diff1) {
                 diff1 = diff2;
                 planeResponse = plane;
             }
         }
 
-        if (planeResponse == null || diff1 > 20 ){
-            throw new ResourceNotFoundException("No plane found in this area and direction.");
+        if (planeResponse == null){
+            return null;
         }
 
         return planeResponse;
-
 
 
     }

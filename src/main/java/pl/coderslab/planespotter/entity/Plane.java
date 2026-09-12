@@ -14,7 +14,7 @@ public class Plane {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(unique = true)
-    private String registration;
+    private String callsign;
     @Column(unique = true)
     private String icao24;
 

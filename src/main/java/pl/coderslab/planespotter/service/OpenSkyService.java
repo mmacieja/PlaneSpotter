@@ -17,13 +17,13 @@ public class OpenSkyService {
 
         try {
             this.restTemplate = UnsafeRestTemplate.create();
-        }catch(Exception exception){
+        } catch (Exception exception) {
             throw new RuntimeException("Could not create RestTemplate", exception);
         }
     }
 
 
-    public List<OpenSkyPlaneResponse> getPlanes(double la, double lo){
+    public List<OpenSkyPlaneResponse> getPlanes(double la, double lo) {
 
         double margin = 1;
         double lamin = la - margin;
@@ -32,7 +32,7 @@ public class OpenSkyService {
         double lomax = lo + margin;
 
         String url = "https://opensky-network.org/api/states/all"
-                +"?lamin=" + lamin +
+                + "?lamin=" + lamin +
                 "&lomin=" + lomin +
                 "&lamax=" + lamax +
                 "&lomax=" + lomax;
@@ -42,31 +42,31 @@ public class OpenSkyService {
 
         List<OpenSkyPlaneResponse> planes = new ArrayList<>();
 
-        if (response == null || response.getStates() == null){
+        if (response == null || response.getStates() == null) {
             return planes;
         }
 
-        for (List<Object> state : response.getStates()){
+        for (List<Object> state : response.getStates()) {
 
             String icao24 = state.get(0).toString();
             String callsign = state.get(1).toString();
             String origin_country = state.get(2).toString();
-            Double longitude = getDouble(state,5);
-            Double latitude = getDouble(state,6);
-            Double altitude = getDouble(state,7);
-            Double truetrack = getDouble(state,10);
+            Double longitude = getDouble(state, 5);
+            Double latitude = getDouble(state, 6);
+            Double altitude = getDouble(state, 7);
+            Double truetrack = getDouble(state, 10);
 
-            planes.add(new OpenSkyPlaneResponse(icao24, callsign, origin_country, longitude, latitude, altitude, truetrack ));
+            planes.add(new OpenSkyPlaneResponse(icao24, callsign, origin_country, longitude, latitude, altitude, truetrack));
         }
 
         return planes;
     }
 
-    private Double getDouble(List<Object> state, int index){
+    private Double getDouble(List<Object> state, int index) {
 
         Object value = state.get(index);
 
-        if (value == null){
+        if (value == null) {
             return null;
         }
 

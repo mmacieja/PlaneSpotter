@@ -26,19 +26,30 @@ public class OpenSkyController {
     }
 
 
-
     @GetMapping("/nearby")
     public ResponseEntity<List<OpenSkyPlaneResponse>> near(@RequestParam double la,
-                                                           @RequestParam double lo){
+                                                           @RequestParam double lo) {
 
         return ResponseEntity.ok(service.getPlanes(la, lo));
     }
 
     @GetMapping("/findPlane")
     public ResponseEntity<OpenSkyPlaneResponse> findPlane(@RequestParam double la,
-                                                           @RequestParam double lo,
-                                                          @RequestParam double bearing){
+                                                          @RequestParam double lo,
+                                                          @RequestParam double bearing) {
+        System.out.println("endpoint called");
 
-        return ResponseEntity.ok(matchingService.findPlane(la, lo, bearing));
+        OpenSkyPlaneResponse plane = matchingService.findPlane(la,lo,bearing);
+
+        System.out.println("plane = " + plane);
+
+        if(plane == null){
+            System.out.println("plane is null - returning 404");
+            return ResponseEntity.notFound().build();
+        }
+
+        System.out.print("plane found - returning 200");
+
+        return ResponseEntity.ok(plane);
     }
 }

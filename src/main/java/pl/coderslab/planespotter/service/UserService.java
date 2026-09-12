@@ -1,7 +1,6 @@
 package pl.coderslab.planespotter.service;
 
 import org.jspecify.annotations.NonNull;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -29,7 +28,7 @@ public class UserService implements UserDetailsService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public UserResponse toResponse(User user){
+    public UserResponse toResponse(User user) {
 
         UserResponse userResponse = new UserResponse();
         userResponse.setEmail(user.getEmail());
@@ -39,19 +38,19 @@ public class UserService implements UserDetailsService {
         return userResponse;
     }
 
-    public UserResponse create(UserRequest userRequest){
+    public UserResponse create(UserRequest userRequest) {
 
         Map<String, List<String>> errors = new HashMap<>();
 
-        if(userRepository.existsByEmail(userRequest.getEmail())){
+        if (userRepository.existsByEmail(userRequest.getEmail())) {
             errors.put("email", List.of("A user with this email already exists"));
 
         }
-        if(userRepository.existsByUsername(userRequest.getUsername())){
+        if (userRepository.existsByUsername(userRequest.getUsername())) {
             errors.put("username", List.of("A user with this username already exists"));
         }
 
-        if(!errors.isEmpty()){
+        if (!errors.isEmpty()) {
             throw new DuplicateResourceException(errors);
         }
 
@@ -68,12 +67,12 @@ public class UserService implements UserDetailsService {
 
         return userRepository.findAll()
                 .stream()
-                .map( plane -> toResponse(plane))
+                .map(user -> toResponse(user))
                 .toList();
 
     }
 
-    public UserResponse findById(Long id){
+    public UserResponse findById(Long id) {
 
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
@@ -81,7 +80,7 @@ public class UserService implements UserDetailsService {
         return toResponse(user);
     }
 
-    public void delete(Long id){
+    public void delete(Long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
@@ -89,7 +88,7 @@ public class UserService implements UserDetailsService {
 
     }
 
-    public UserResponse update(Long id, UserRequest userRequest){
+    public UserResponse update(Long id, UserRequest userRequest) {
 
         Map<String, List<String>> errors = new HashMap<>();
 
@@ -97,15 +96,15 @@ public class UserService implements UserDetailsService {
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
 
-        if(userRepository.existsByEmailAndIdNot(userRequest.getEmail(), id)){
+        if (userRepository.existsByEmailAndIdNot(userRequest.getEmail(), id)) {
             errors.put("email", List.of("A user with this email already exists"));
 
         }
-        if(userRepository.existsByUsernameAndIdNot(userRequest.getUsername(), id)){
+        if (userRepository.existsByUsernameAndIdNot(userRequest.getUsername(), id)) {
             errors.put("username", List.of("A user with this username already exists"));
         }
 
-        if(!errors.isEmpty()){
+        if (!errors.isEmpty()) {
             throw new DuplicateResourceException(errors);
         }
 
@@ -117,7 +116,7 @@ public class UserService implements UserDetailsService {
 
     }
 
-    public UserResponse getByUsername(String username){
+    public UserResponse getByUsername(String username) {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 

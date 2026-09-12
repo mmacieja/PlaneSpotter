@@ -1,0 +1,50 @@
+### Valid login
+POST http://localhost:8080/user/login
+Content-Type: application/json
+
+{
+  "username": "user1",
+  "password": "password1"
+}
+
+### Creating a sighting
+POST http://localhost:8080/sighting
+Content-Type: application/json
+
+{
+  "icao24": "333334",
+  "callsign": "LO123",
+  "latitude": 30.00,
+  "longitude": 20.00
+}
+
+### Creating a sighting with a new plane
+POST http://localhost:8080/sighting
+Content-Type: application/json
+
+{
+  "icao24": "989898",
+  "callsign": "LO123",
+  "latitude": 30.00,
+  "longitude": 20.00
+}
+
+### Creating an invalid sighting
+POST http://localhost:8080/sighting
+Content-Type: application/json
+
+{
+  "icao24": "12",
+  "callsign": "LO124",
+  "latitude": 20.00,
+  "longitude": 20.00
+}
+
+### Get all of the user's sightings
+GET http://localhost:8080/sighting/all
+
+### Logout
+POST http://localhost:8080/user/logout
+
+### Get all of the user's sightings after logout
+GET http://localhost:8080/sighting/all

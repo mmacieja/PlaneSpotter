@@ -14,7 +14,7 @@ public class PlaneRequest {
     @Size(min = 6, max = 6, message = "ICAO24 must have 6 characters")
     private String icao24;
 
-    @NotBlank(message = "Registration cannot be blank")
-    private String registration;
+    @NotBlank(message = "Callsign cannot be blank")
+    private String callsign;
     private Long airlineId;
 }
