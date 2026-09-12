@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Plane Spotter</title>
+</head>
+<body>
+<h1>Plane Spotter</h1>
+
+<div id="registerSection">
+<h2>Register</h2>
+<input id="registerUsername" placeholder="Username">
+<input id="registerEmail" placeholder="Email">
+<input id="registerPassword" type="password" placeholder="Password">
+
+<button id="register">Register</button>
+<p id="registerMessage"></p>
+<hr>
+
+</div>
+
+<div id="logSection">
+
+<h2>Login</h2>
+<input id="logUsername" placeholder="Username">
+<input id="logPassword" type="password" placeholder="Password">
+
+<button id="login">Log in</button>
+<p id="loginMessage"></p>
+
+</div>
+
+<div id="menu" style="display:none;">
+    <h2>MENU</h2>
+    <button id="identifyMenu">Identify a plane</button>
+    <button id="collectionMenu">My Collection</button>
+    <button id="updateMenu">Update Details</button>
+    <button id="logout" type="button">Log out</button>
+</div>
+
+<div id="collectionSection" style="display: none;">
+    <h2>My Collection</h2>
+    <div id="collection"></div>
+    <button id="backCollection"> Go back </button>
+</div>
+
+<div id="app" style="display: none;">
+
+    <p>
+        <a href="https://www.latlong.net/" target="_blank">Find your latitude and longitude</a>
+    </p>
+
+<label>
+    Latitude:
+    <input id="latitude" type="number">
+</label>
+
+
+<br>
+
+<label>
+    Longitude:
+    <input id="longitude" type="number">
+</label>
+
+<br>
+
+<label>
+    Viewing direction:
+    <input id="bearing" type="number">
+</label>
+
+<br>
+
+<button id="identify"> Identify Plane </button>
+    <button id="backIdentify"> Go back </button>
+
+</div>
+<div id="result"></div>
+
+<div id="update" style="display: none;">
+    <h2>Update Details</h2>
+    <input id="updateUsername" placeholder="Username">
+    <input id="updateEmail" placeholder="Email">
+    <input id="updatePassword" type="password" placeholder="Password">
+    <button id="updateButton"> Save changes </button>
+    <p id="updateMessage"></p>
+    <button id="backUpdate"> Go back </button>
+
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
