@@ -1,0 +1,10 @@
+### Valid login
+POST http://localhost:8080/user/login
+Content-Type: application/json
+
+{
+  "username": "user4",
+  "password": "Password4"
+}
+### test request
+GET http://localhost:8080/flightlabs/test?callsign=NOS2542

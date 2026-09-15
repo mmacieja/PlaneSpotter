@@ -3,7 +3,7 @@ package pl.coderslab.planespotter.service;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import pl.coderslab.planespotter.UnsafeRestTemplate;
-import pl.coderslab.planespotter.dto.response.OpenSkyPlaneResponse;
+import pl.coderslab.planespotter.dto.response.IdentifiedPlaneResponse;
 import pl.coderslab.planespotter.dto.response.OpenSkyStatesResponse;
 
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ public class OpenSkyService {
     }
 
 
-    public List<OpenSkyPlaneResponse> getPlanes(double la, double lo) {
+    public List<IdentifiedPlaneResponse> getPlanes(double la, double lo) {
 
         double margin = 1;
         double lamin = la - margin;
@@ -40,7 +40,7 @@ public class OpenSkyService {
 
         OpenSkyStatesResponse response = restTemplate.getForObject(url, OpenSkyStatesResponse.class);
 
-        List<OpenSkyPlaneResponse> planes = new ArrayList<>();
+        List<IdentifiedPlaneResponse> planes = new ArrayList<>();
 
         if (response == null || response.getStates() == null) {
             return planes;
@@ -56,7 +56,7 @@ public class OpenSkyService {
             Double altitude = getDouble(state, 7);
             Double truetrack = getDouble(state, 10);
 
-            planes.add(new OpenSkyPlaneResponse(icao24, callsign, origin_country, longitude, latitude, altitude, truetrack));
+            planes.add(new IdentifiedPlaneResponse(icao24, callsign, origin_country, longitude, latitude, altitude, truetrack));
         }
 
         return planes;

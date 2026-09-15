@@ -5,7 +5,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import pl.coderslab.planespotter.dto.response.OpenSkyPlaneResponse;
+import pl.coderslab.planespotter.dto.response.IdentifiedPlaneResponse;
+import pl.coderslab.planespotter.service.FlightLabService;
 import pl.coderslab.planespotter.service.OpenSkyService;
 import pl.coderslab.planespotter.service.PlaneMatchingService;
 
@@ -19,36 +20,37 @@ public class OpenSkyController {
     private final OpenSkyService service;
 
     private final PlaneMatchingService matchingService;
+    private final FlightLabService flightLabService;
 
-    public OpenSkyController(OpenSkyService service, PlaneMatchingService matchingService) {
+    public OpenSkyController(OpenSkyService service, PlaneMatchingService matchingService, FlightLabService flightLabService) {
         this.service = service;
         this.matchingService = matchingService;
+        this.flightLabService = flightLabService;
     }
 
 
     @GetMapping("/nearby")
-    public ResponseEntity<List<OpenSkyPlaneResponse>> near(@RequestParam double la,
+    public ResponseEntity<List<IdentifiedPlaneResponse>> near(@RequestParam double la,
                                                            @RequestParam double lo) {
 
         return ResponseEntity.ok(service.getPlanes(la, lo));
     }
 
     @GetMapping("/findPlane")
-    public ResponseEntity<OpenSkyPlaneResponse> findPlane(@RequestParam double la,
+    public ResponseEntity<IdentifiedPlaneResponse> findPlane(@RequestParam double la,
                                                           @RequestParam double lo,
                                                           @RequestParam double bearing) {
         System.out.println("endpoint called");
 
-        OpenSkyPlaneResponse plane = matchingService.findPlane(la,lo,bearing);
+        IdentifiedPlaneResponse plane = matchingService.findPlane(la, lo, bearing);
 
-        System.out.println("plane = " + plane);
-
-        if(plane == null){
+        if (plane == null) {
             System.out.println("plane is null - returning 404");
             return ResponseEntity.notFound().build();
         }
 
-        System.out.print("plane found - returning 200");
+        plane = flightLabService.addToSighting(plane);
+        System.out.println("Added more info");
 
         return ResponseEntity.ok(plane);
     }

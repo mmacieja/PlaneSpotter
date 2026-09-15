@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class OpenSkyPlaneResponse {
+public class IdentifiedPlaneResponse {
 
     private String icao24;
     private String callsign;
@@ -14,10 +14,14 @@ public class OpenSkyPlaneResponse {
     private Double latitude;
     private Double altitude;
     private Double truetrack;
+    private String airline;
+    private String departureAirport;
+    private String arrivalAirport;
 
-    public OpenSkyPlaneResponse(){}
+    public IdentifiedPlaneResponse() {
+    }
 
-    public OpenSkyPlaneResponse(String icao24, String callsign, String origin_country, Double longitude, Double latitude, Double altitude, Double truetrack) {
+    public IdentifiedPlaneResponse(String icao24, String callsign, String origin_country, Double longitude, Double latitude, Double altitude, Double truetrack) {
         this.icao24 = icao24;
         this.callsign = callsign;
         this.origin_country = origin_country;

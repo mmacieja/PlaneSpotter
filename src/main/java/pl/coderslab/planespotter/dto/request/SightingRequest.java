@@ -22,4 +22,8 @@ public class SightingRequest {
 
     @NotNull(message = "Longitude id is required")
     private Double longitude;
+
+    private String airline;
+    private String departureAirport;
+    private String arrivalAirport;
 }

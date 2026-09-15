@@ -18,6 +18,6 @@ public class Airline {
     @Column(nullable = false, unique = true)
     private String name;
     @Column(unique = true)
-    private String icaoCode;
+    private String iata;
 
 }

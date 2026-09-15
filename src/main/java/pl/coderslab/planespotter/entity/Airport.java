@@ -15,9 +15,7 @@ public class Airport {
     private Long id;
     private String name;
     @Column(unique = true)
-    private String icaoCode;
-    private String city;
-    private String country;
+    private String iata;
 
 
 }

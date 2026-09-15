@@ -3,8 +3,9 @@ package pl.coderslab.planespotter.controller;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import pl.coderslab.planespotter.AppUser;
 import pl.coderslab.planespotter.dto.request.SightingRequest;
 import pl.coderslab.planespotter.dto.response.SightingResponse;
 import pl.coderslab.planespotter.service.SightingService;
@@ -23,9 +24,9 @@ public class SightingController {
 
     @PostMapping
     public ResponseEntity<SightingResponse> add(@Valid @RequestBody SightingRequest request,
-                                                Authentication authentication) {
+                                                @AuthenticationPrincipal AppUser appUser) {
 
-        SightingResponse response = sightingService.create(request, authentication.getName());
+        SightingResponse response = sightingService.create(request, appUser.getUser());
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
 
@@ -33,17 +34,17 @@ public class SightingController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<SightingResponse>> findAll(Authentication authentication) {
+    public ResponseEntity<List<SightingResponse>> findAll(@AuthenticationPrincipal AppUser appUser) {
 
-        return ResponseEntity.ok(sightingService.getSightings(authentication.getName()));
+        return ResponseEntity.ok(sightingService.getSightings(appUser.getUser()));
 
 
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteSighting(@PathVariable Long id,
-                                               Authentication authentication){
-        sightingService.deleteSighting(id, authentication.getName());
+                                               @AuthenticationPrincipal AppUser appUser) {
+        sightingService.deleteSighting(id, appUser.getUser());
 
         return ResponseEntity.noContent().build();
     }

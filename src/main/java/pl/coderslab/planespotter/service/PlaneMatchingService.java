@@ -2,9 +2,7 @@ package pl.coderslab.planespotter.service;
 
 
 import org.springframework.stereotype.Service;
-import pl.coderslab.planespotter.dto.response.OpenSkyPlaneResponse;
-import pl.coderslab.planespotter.exception.ResourceNotFoundException;
-
+import pl.coderslab.planespotter.dto.response.IdentifiedPlaneResponse;
 import java.util.List;
 
 @Service
@@ -18,14 +16,14 @@ public class PlaneMatchingService {
         this.geoService = geoService;
     }
 
-    public OpenSkyPlaneResponse findPlane(double la, double lo, double viewingBearing) {
-        List<OpenSkyPlaneResponse> planes = service.getPlanes(la, lo);
+    public IdentifiedPlaneResponse findPlane(double la, double lo, double viewingBearing) {
+        List<IdentifiedPlaneResponse> planes = service.getPlanes(la, lo);
 
         double diff1 = 360;
 
-        OpenSkyPlaneResponse planeResponse = null;
+        IdentifiedPlaneResponse planeResponse = null;
 
-        for (OpenSkyPlaneResponse plane : planes) {
+        for (IdentifiedPlaneResponse plane : planes) {
             double planeLo = plane.getLongitude();
             double planeLa = plane.getLatitude();
 
@@ -40,7 +38,7 @@ public class PlaneMatchingService {
             }
         }
 
-        if (planeResponse == null){
+        if (planeResponse == null) {
             return null;
         }
 

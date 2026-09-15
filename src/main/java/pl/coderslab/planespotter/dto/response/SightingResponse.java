@@ -24,5 +24,5 @@ public class SightingResponse {
 
     private String icao24;
     private String callsign;
-    private String username;
+    private String airline;
 }
