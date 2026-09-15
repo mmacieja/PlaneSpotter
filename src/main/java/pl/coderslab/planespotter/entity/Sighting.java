@@ -36,8 +36,4 @@ public class Sighting {
     private User user;
 
 
-
-
-
-
 }
