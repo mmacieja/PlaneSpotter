@@ -6,6 +6,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import pl.coderslab.planespotter.AppUser;
 import pl.coderslab.planespotter.dto.request.UserRequest;
 import pl.coderslab.planespotter.dto.response.UserResponse;
 import pl.coderslab.planespotter.entity.User;
@@ -116,25 +117,13 @@ public class UserService implements UserDetailsService {
 
     }
 
-    public UserResponse getByUsername(String username) {
-        User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
-
-        return toResponse(user);
-
-    }
 
     @Override
     public UserDetails loadUserByUsername(@NonNull String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
-
-        return org.springframework.security.core.userdetails.User
-                .withUsername(user.getUsername())
-                .password(user.getPassword())
-                .roles("USER")
-                .build();
+        return new AppUser(user);
     }
 
 }

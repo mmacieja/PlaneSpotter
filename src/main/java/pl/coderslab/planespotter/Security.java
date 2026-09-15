@@ -15,14 +15,14 @@ import org.springframework.security.web.SecurityFilterChain;
 public class Security {
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests(auth -> auth.requestMatchers("/","/index.html", "/app.js","/user/register", "/user/login")
+                .authorizeHttpRequests(auth -> auth.requestMatchers("/", "/index.html", "/app.js", "/user/register", "/user/login")
                         .permitAll()
                         .anyRequest()
                         .authenticated())
@@ -30,13 +30,13 @@ public class Security {
                         (request, response, authenticationException) ->
                                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED)))
                 .logout(logout -> logout.logoutUrl("/user/logout")
-                .logoutSuccessHandler((request, response, authentication) ->
-                        response.setStatus(HttpServletResponse.SC_OK)).permitAll());
+                        .logoutSuccessHandler((request, response, authentication) ->
+                                response.setStatus(HttpServletResponse.SC_OK)).permitAll());
         return http.build();
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception{
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
         return configuration.getAuthenticationManager();
     }
 }

@@ -14,9 +14,11 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.web.bind.annotation.*;
+import pl.coderslab.planespotter.AppUser;
 import pl.coderslab.planespotter.dto.request.LoginRequest;
 import pl.coderslab.planespotter.dto.request.UserRequest;
 import pl.coderslab.planespotter.dto.response.UserResponse;
+import pl.coderslab.planespotter.entity.User;
 import pl.coderslab.planespotter.service.UserService;
 
 import java.util.List;
@@ -79,7 +81,8 @@ public class UserController {
                 new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword())
         );
 
-        UserResponse userResponse = userService.getByUsername(authentication.getName());
+        AppUser appUser = (AppUser) authentication.getPrincipal();
+        User user = appUser.getUser();
 
         SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
         securityContext.setAuthentication(authentication);
@@ -89,7 +92,7 @@ public class UserController {
 
         session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, securityContext);
 
-        return ResponseEntity.ok(userResponse);
+        return ResponseEntity.ok(userService.toResponse(user));
 
 
     }

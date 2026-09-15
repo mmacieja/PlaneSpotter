@@ -11,7 +11,6 @@ import lombok.Setter;
 public class UserRequest {
 
 
-
     @NotBlank(message = "Username cannot be blank")
     @Size(min = 3, max = 15, message = "Username must have between 3 and 15 characters")
     private String username;
