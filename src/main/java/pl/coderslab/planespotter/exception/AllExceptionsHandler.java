@@ -16,7 +16,7 @@ import java.util.Map;
 public class AllExceptionsHandler {
 
     @ExceptionHandler
-    public ResponseEntity<Map<String, String>> handleNotFound(ResourceNotFoundException exception){
+    public ResponseEntity<Map<String, String>> handleNotFound(ResourceNotFoundException exception) {
 
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
@@ -25,7 +25,7 @@ public class AllExceptionsHandler {
     }
 
     @ExceptionHandler
-    public ResponseEntity<Map<String, List<String>>> handleValidation(MethodArgumentNotValidException exception){
+    public ResponseEntity<Map<String, List<String>>> handleValidation(MethodArgumentNotValidException exception) {
 
         Map<String, List<String>> errors = new HashMap<>();
 
@@ -41,7 +41,7 @@ public class AllExceptionsHandler {
     }
 
     @ExceptionHandler
-    public ResponseEntity<Map<String, List<String>>> handleDuplicate(DuplicateResourceException exception){
+    public ResponseEntity<Map<String, List<String>>> handleDuplicate(DuplicateResourceException exception) {
 
 
         return ResponseEntity.status(HttpStatus.CONFLICT).body(exception.getErrors());
@@ -49,7 +49,7 @@ public class AllExceptionsHandler {
     }
 
     @ExceptionHandler
-    public ResponseEntity<Map<String, String>> handleAuthentication(AuthenticationException exception){
+    public ResponseEntity<Map<String, String>> handleAuthentication(AuthenticationException exception) {
 
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                 .body(Map.of("error", "Invalid username or password"));

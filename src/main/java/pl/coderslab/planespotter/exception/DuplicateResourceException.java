@@ -6,11 +6,11 @@ import java.util.List;
 import java.util.Map;
 
 @Getter
-public class DuplicateResourceException extends RuntimeException{
+public class DuplicateResourceException extends RuntimeException {
 
     private final Map<String, List<String>> errors;
 
-    public DuplicateResourceException (Map<String, List<String>> errors){
+    public DuplicateResourceException(Map<String, List<String>> errors) {
         super("Duplicate");
         this.errors = errors;
     }
